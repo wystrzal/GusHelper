@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace GusHelper.Models.FullReport
@@ -11,7 +7,7 @@ namespace GusHelper.Models.FullReport
     public class LegalPersonPkdRoot
     {
         [XmlElement("dane")]
-        public LegalPersonPkd Result { get; set; }
+        public List<LegalPersonPkd> Results { get; set; }
     }
 
     public class LegalPersonPkd

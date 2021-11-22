@@ -1,9 +1,4 @@
 ﻿using GusHelper.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace GusHelper.Models.FullReport
@@ -15,10 +10,10 @@ namespace GusHelper.Models.FullReport
         public LegalPerson Result { get; set; }
     }
 
-    public class LegalPerson
+    public class LegalPerson : BasePerson
     {
         [XmlElement("praw_regon9")]
-        public string Regon9 { get; set; }
+        public override string Regon9 { get; set; }
 
         [XmlElement("praw_nip")]
         public string Nip { get; set; }
@@ -27,10 +22,10 @@ namespace GusHelper.Models.FullReport
         public NipStatus NipStatus { get; set; }
 
         [XmlElement("praw_nazwa")]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
         [XmlElement("praw_nazwaSkrocona")]
-        public string ShortName { get; set; }
+        public override string ShortName { get; set; }
 
         [XmlElement("praw_numerWRejestrzeEwidencji")]
         public string NumberInRegisterOfRecords { get; set; }
@@ -39,13 +34,13 @@ namespace GusHelper.Models.FullReport
         public XmlDateTime DateOfEntryToRegisterOfRecords { get; set; }
 
         [XmlElement("praw_dataPowstania")]
-        public XmlDateTime DateOfCreation { get; set; }
+        public override XmlDateTime DateOfCreation { get; set; }
 
         [XmlElement("praw_dataRozpoczeciaDzialalnosci")]
-        public XmlDateTime DateOfCommencementBusiness { get; set; }
+        public override XmlDateTime DateOfCommencementBusiness { get; set; }
 
         [XmlElement("praw_dataWpisuDoRegon")]
-        public XmlDateTime DateOfEntryToRegon { get; set; }
+        public override XmlDateTime DateOfEntryToRegon { get; set; }
 
         [XmlElement("praw_dataZawieszeniaDzialalnosci")]
         public XmlDateTime DateOfSuspensionBusiness { get; set; }
@@ -54,7 +49,7 @@ namespace GusHelper.Models.FullReport
         public XmlDateTime DateOfResumptionBusiness { get; set; }
 
         [XmlElement("praw_dataZaistnieniaZmiany")]
-        public XmlDateTime DateOfChangeOccurrence { get; set; }
+        public override XmlDateTime DateOfChangeOccurrence { get; set; }
 
         [XmlElement("praw_dataZakonczeniaDzialalnosci")]
         public XmlDateTime BusinessTerminationDate { get; set; }
@@ -69,28 +64,28 @@ namespace GusHelper.Models.FullReport
         public XmlDateTime DateOfCompletionInsolvencyProceedings { get; set; }
 
         [XmlElement("praw_adSiedzKraj_Symbol")]
-        public string CountrySymbol { get; set; }
+        public override string CountrySymbol { get; set; }
 
         [XmlElement("praw_adSiedzWojewodztwo_Symbol")]
-        public string ProvinceSymbol { get; set; }
+        public override string ProvinceSymbol { get; set; }
 
         [XmlElement("praw_adSiedzPowiat_Symbol")]
-        public string CountySymbol { get; set; }
+        public override string CountySymbol { get; set; }
 
         [XmlElement("praw_adSiedzGmina_Symbol")]
-        public string CommuneSymbol { get; set; }
+        public override string CommuneSymbol { get; set; }
 
         [XmlElement("praw_adSiedzKodPocztowy")]
         public string Postcode { get; set; }
 
         [XmlElement("praw_adSiedzMiejscowoscPoczty_Symbol")]
-        public string PostOfficeSymbol { get; set; }
+        public override string PostOfficeSymbol { get; set; }
 
         [XmlElement("praw_adSiedzMiejscowosc_Symbol")]
-        public string CitySymbol { get; set; }
+        public override string CitySymbol { get; set; }
 
         [XmlElement("praw_adSiedzUlica_Symbol")]
-        public string StreetSymbol { get; set; }
+        public override string StreetSymbol { get; set; }
 
         [XmlElement("praw_adSiedzNumerNieruchomosci")]
         public string PropertyNumber { get; set; }
@@ -102,7 +97,7 @@ namespace GusHelper.Models.FullReport
         public string UnusualLocation { get; set; }
 
         [XmlElement("praw_numerTelefonu")]
-        public string PhoneNumber { get; set; }
+        public override string PhoneNumber { get; set; }
 
         [XmlElement("praw_numerWewnetrznyTelefonu")]
         public string PhoneExtensionNumber { get; set; }
@@ -111,31 +106,31 @@ namespace GusHelper.Models.FullReport
         public string FaxNumber { get; set; }
 
         [XmlElement("praw_adresEmail")]
-        public string Email { get; set; }
+        public override string Email { get; set; }
 
         [XmlElement("praw_adresStronyinternetowej")]
         public string Website { get; set; }
 
         [XmlElement("praw_adSiedzKraj_Nazwa")]
-        public string Country { get; set; }
+        public override string Country { get; set; }
 
         [XmlElement("praw_adSiedzWojewodztwo_Nazwa")]
-        public string Province { get; set; }
+        public override string Province { get; set; }
 
         [XmlElement("praw_adSiedzPowiat_Nazwa")]
-        public string County { get; set; }
+        public override string County { get; set; }
 
         [XmlElement("praw_adSiedzGmina_Nazwa")]
-        public string Commune { get; set; }
+        public override string Commune { get; set; }
 
         [XmlElement("praw_adSiedzMiejscowosc_Nazwa")]
-        public string City { get; set; }
+        public override string City { get; set; }
 
         [XmlElement("praw_adSiedzMiejscowoscPoczty_Nazwa")]
-        public string PostOffice { get; set; }
+        public override string PostOffice { get; set; }
 
         [XmlElement("praw_adSiedzUlica_Nazwa")]
-        public string Street { get; set; }
+        public override string Street { get; set; }
 
         [XmlElement("praw_podstawowaFormaPrawna_Symbol")]
         public string BasicLegalFormSymbol { get; set; }

@@ -1,9 +1,8 @@
-using GusHelper.Models.DataSearchEntitiesResult;
+﻿using FluentAssertions;
 using GusHelperWSDL;
 using NUnit.Framework;
 using System;
 using System.IO;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;
@@ -11,35 +10,33 @@ using System.Xml.Serialization;
 
 namespace GusHelper.Test
 {
-    public class Tests
+    public class BaseTest
     {
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void ClientShouldNotBeNull()
         {
+            var client = CreateClient();
+            client.Should().NotBeNull();
         }
-
 
         [Test]
-        public async Task Test1()
+        public async Task LoginResponseShouldNotBeNull()
         {
-            UslugaBIRzewnPublClient client = CreateClient();
-            ZalogujResponse loginResult = await Login(client);
-            SetSid(client, loginResult.ZalogujResult);
-
-            var res = await client.DaneSzukajPodmiotyAsync(new ParametryWyszukiwania { Nipy = "8992689516,5261040828" });
-
-            StringReader stringReader = new(res.DaneSzukajPodmiotyResult);
-            XmlSerializer serializer = new(typeof(SearchEntityRoot));
-            SearchEntityRoot dataSearchEntities = serializer.Deserialize(stringReader) as SearchEntityRoot;
-
-            var xx = dataSearchEntities.Results.FirstOrDefault().BusinessEndDate;
-
-            var res2 = await client.DanePobierzPelnyRaportAsync(dataSearchEntities.Results.FirstOrDefault().Regon, "BIR11OsPrawna");
-
-            await Logout(client, loginResult);
+            var client = CreateClient();
+            var loginResponse = await Login(client);
+            loginResponse.Should().NotBeNull();
         }
 
-        private UslugaBIRzewnPublClient CreateClient()
+        [Test]
+        public async Task LogoutShouldPass()
+        {
+            var client = CreateClient();
+            var loginResponse = await Login(client);
+            SetSid(client, loginResponse.ZalogujResult);
+            await Logout(client, loginResponse);
+        }
+
+        protected UslugaBIRzewnPublClient CreateClient()
         {
             var myBinding = new WSHttpBinding();
             myBinding.Security.Mode = SecurityMode.Transport;
@@ -51,7 +48,7 @@ namespace GusHelper.Test
             return client;
         }
 
-        private static async Task<ZalogujResponse> Login(UslugaBIRzewnPublClient client)
+        protected static async Task<ZalogujResponse> Login(UslugaBIRzewnPublClient client)
         {
             ZalogujResponse loginResult = await client.ZalogujAsync("abcde12345abcde12345");
             if (loginResult == null || loginResult.ZalogujResult == null)
@@ -61,7 +58,7 @@ namespace GusHelper.Test
             return loginResult;
         }
 
-        private static void SetSid(UslugaBIRzewnPublClient client, string sid)
+        protected static void SetSid(UslugaBIRzewnPublClient client, string sid)
         {
             _ = new OperationContextScope(client.InnerChannel);
             HttpRequestMessageProperty reqProps = new();
@@ -69,13 +66,20 @@ namespace GusHelper.Test
             OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] = reqProps;
         }
 
-        private static async Task Logout(UslugaBIRzewnPublClient client, ZalogujResponse loginResult)
+        protected static async Task Logout(UslugaBIRzewnPublClient client, ZalogujResponse loginResult)
         {
             var logoutResult = await client.WylogujAsync(loginResult.ZalogujResult);
             if (!logoutResult.WylogujResult)
             {
                 throw new Exception("Logout failed.");
             }
+        }
+
+        protected object DeserializeResult(string result, Type deserializeTo)
+        {
+            StringReader stringReader = new(result);
+            XmlSerializer serializer = new(deserializeTo);
+            return serializer.Deserialize(stringReader);
         }
     }
 }

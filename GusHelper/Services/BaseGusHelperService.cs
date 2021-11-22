@@ -1,11 +1,10 @@
 ﻿using GusHelperWSDL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace GusHelper.Services
 {
@@ -42,16 +41,18 @@ namespace GusHelper.Services
 
         protected async Task<ZalogujResponse> Login(UslugaBIRzewnPublClient client)
         {
+            if (client == null) throw new NullReferenceException();
             ZalogujResponse loginResult = await client.ZalogujAsync(key);
             if (loginResult == null || loginResult.ZalogujResult == null)
             {
-                throw new Exception("Null SID.");
+                throw new Exception("Login failed.");
             }
             return loginResult;
         }
 
         protected static void SetSid(UslugaBIRzewnPublClient client, string sid)
         {
+            if (client == null || string.IsNullOrWhiteSpace(sid)) throw new NullReferenceException();
             _ = new OperationContextScope(client.InnerChannel);
             HttpRequestMessageProperty reqProps = new();
             reqProps.Headers.Add("sid", sid);
@@ -60,11 +61,20 @@ namespace GusHelper.Services
 
         protected static async Task Logout(UslugaBIRzewnPublClient client, ZalogujResponse loginResult)
         {
+            if (client == null || loginResult == null) throw new NullReferenceException();
             var logoutResult = await client.WylogujAsync(loginResult.ZalogujResult);
             if (!logoutResult.WylogujResult)
             {
                 throw new Exception("Logout failed.");
             }
+        }
+
+        protected object DeserializeResult(string result, Type deserializeTo)
+        {
+            if (string.IsNullOrWhiteSpace(result) || deserializeTo == null) return null;
+            StringReader stringReader = new(result);
+            XmlSerializer serializer = new(deserializeTo);
+            return serializer.Deserialize(stringReader);
         }
     }
 }
