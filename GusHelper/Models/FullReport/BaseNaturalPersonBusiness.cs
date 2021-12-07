@@ -51,7 +51,7 @@ namespace GusHelper.Models.FullReport
         public override string CommuneSymbol { get; set; }
 
         [XmlElement("fiz_adSiedzKodPocztowy")]
-        public string Postcode { get; set; }
+        public override string Postcode { get; set; }
 
         [XmlElement("fiz_adSiedzMiejscowoscPoczty_Symbol")]
         public override string PostOfficeSymbol { get; set; }
@@ -63,10 +63,10 @@ namespace GusHelper.Models.FullReport
         public override string StreetSymbol { get; set; }
 
         [XmlElement("fiz_adSiedzNumerNieruchomosci")]
-        public string PropertyNumber { get; set; }
+        public override string PropertyNumber { get; set; }
 
         [XmlElement("fiz_adSiedzNumerLokalu")]
-        public string ApartmentNumber { get; set; }
+        public override string ApartmentNumber { get; set; }
 
         [XmlElement("fiz_adSiedzNietypoweMiejsceLokalizacji")]
         public string UnusualLocation { get; set; }

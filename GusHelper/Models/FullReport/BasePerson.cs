@@ -53,5 +53,11 @@ namespace GusHelper.Models.FullReport
         public virtual string City { get; set; }
         [XmlIgnore]
         public virtual string Street { get; set; }
+        [XmlIgnore]
+        public virtual string Postcode { get; set; }
+        [XmlIgnore]
+        public virtual string PropertyNumber { get; set; }
+        [XmlIgnore]
+        public virtual string ApartmentNumber { get; set; }
     }
 }

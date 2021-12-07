@@ -29,12 +29,12 @@ namespace GusHelper.Utils
             data.Address = new Address();
             if (!string.IsNullOrWhiteSpace(basePerson.City))
             {
-                var city = new City { Name = basePerson.City, Symbol = basePerson.CitySymbol };
+                var city = new City { Name = basePerson.City, Symbol = basePerson.CitySymbol, Postcode = basePerson.Postcode };
                 data.Address.City = city;
             }
             if (!string.IsNullOrWhiteSpace(basePerson.PostOffice))
             {
-                var postOffice = new City { Name = basePerson.PostOffice, Symbol = basePerson.PostOfficeSymbol };
+                var postOffice = new City { Name = basePerson.PostOffice, Symbol = basePerson.PostOfficeSymbol, Postcode = basePerson.Postcode };
                 data.Address.PostOffice = postOffice;
             }
             if (!string.IsNullOrWhiteSpace(basePerson.Commune))
@@ -59,7 +59,7 @@ namespace GusHelper.Utils
             }
             if (!string.IsNullOrWhiteSpace(basePerson.Street))
             {
-                var street = new Street { Name = basePerson.Street, Symbol = basePerson.Street };
+                var street = new Street { Name = basePerson.Street, Symbol = basePerson.StreetSymbol, ApartmentNumber = basePerson.ApartmentNumber, PropertyNumber = basePerson.PropertyNumber };
                 data.Address.Street = street;
             }
         }
