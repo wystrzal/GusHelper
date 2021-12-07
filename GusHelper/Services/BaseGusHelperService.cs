@@ -25,6 +25,7 @@ namespace GusHelper.Services
             myBinding.Security.Mode = SecurityMode.Transport;
             myBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
             myBinding.MessageEncoding = WSMessageEncoding.Mtom;
+            myBinding.MaxReceivedMessageSize = 64000000;
             EndpointAddress endpointAddress;
             if (production)
             {
