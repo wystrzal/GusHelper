@@ -16,13 +16,13 @@ namespace GusHelper.Services
             searchEntityService = new SearchEntityService(key, production);
         }
 
-        public async Task<DataOfPersonBusiness> GetFullReport(string nip)
+        public async Task<DataOfPersonBusiness> GetFullReport(string searchParameter)
         {
             client = CreateClient();
             ZalogujResponse loginResult = await Login(client);
             SetSid(client, loginResult.ZalogujResult);
 
-            var searchEntity = await searchEntityService.SearchEntityByNip(nip, client);
+            var searchEntity = await searchEntityService.SearchEntity(searchParameter, client);
             if (searchEntity == null || string.IsNullOrWhiteSpace(searchEntity.Type)) return null;
 
             var data = new DataOfPersonBusiness();
