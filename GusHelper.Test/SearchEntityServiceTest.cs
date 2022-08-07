@@ -35,7 +35,7 @@ namespace GusHelper.Test
             var client = CreateClient();
             var login = await Login(client);
             SetSid(client, login.ZalogujResult);
-            var result = await searchEntityService.SearchEntityByNip("6452521870", client);
+            var result = await searchEntityService.SearchEntity("6452521870", client);
             result.Should().NotBeNull();
         }
     }
