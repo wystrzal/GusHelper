@@ -6,20 +6,15 @@ using System.Threading.Tasks;
 
 namespace GusHelper.Services
 {
-    public sealed class GetFullReportService : BaseGusHelperService
+    public sealed class GetFullReportService(string key, bool production = true) : BaseGusHelperService(key, production)
     {
-        private readonly SearchEntityService searchEntityService;
+        private readonly SearchEntityService searchEntityService = new(key, production);
         private UslugaBIRzewnPublClient client;
 
-        public GetFullReportService(string key, bool production = true) : base(key, production)
-        {
-            searchEntityService = new SearchEntityService(key, production);
-        }
-
-        public async Task<DataOfPersonBusiness> GetFullReport(string searchParameter)
+		public async Task<DataOfPersonBusiness> GetFullReport(string searchParameter)
         {
             client = CreateClient();
-            ZalogujResponse loginResult = await Login(client);
+            var loginResult = await Login(client);
             SetSid(client, loginResult.ZalogujResult);
 
             var searchEntity = await searchEntityService.SearchEntity(searchParameter, client);
@@ -68,6 +63,7 @@ namespace GusHelper.Services
             if (naturalPersonData.Result == null) return;
             data.DateOfEntryToRegisterOfRecords = naturalPersonData.Result.DateOfEntryToRegisterOfRecords.DateTime;
             data.NumberInRegisterOfRecords = naturalPersonData.Result.NumberInRegisterOfRecords;
+            data.BusinessTerminationDate = naturalPersonData.Result.BusinessTerminationDate.DateTime;
             NaturalPersonMapper.MapOrganizationData(data, naturalPersonData.Result);
             BasePersonMapper.MapBaseData(data, naturalPersonData.Result);
             BasePersonMapper.MapAddress(data, naturalPersonData.Result);
@@ -77,6 +73,7 @@ namespace GusHelper.Services
         {
             var naturalPersonData = await DeserializeResult<NaturalPersonAgriculturalBusinessRoot>(regon, "BIR11OsFizycznaDzialalnoscRolnicza");
             if (naturalPersonData.Result == null) return;
+            data.BusinessTerminationDate = naturalPersonData.Result.BusinessTerminationDate.DateTime;
             BasePersonMapper.MapBaseData(data, naturalPersonData.Result);
             BasePersonMapper.MapAddress(data, naturalPersonData.Result);
         }
@@ -87,6 +84,7 @@ namespace GusHelper.Services
             if (naturalPersonData.Result == null) return;
             data.DateOfEntryToRegisterOfRecords = naturalPersonData.Result.DateOfEntryToRegisterOfRecords.DateTime;
             data.NumberInRegisterOfRecords = naturalPersonData.Result.NumberInRegisterOfRecords;
+            data.BusinessTerminationDate = naturalPersonData.Result.BusinessTerminationDate.DateTime;
             NaturalPersonMapper.MapOrganizationData(data, naturalPersonData.Result);
             BasePersonMapper.MapBaseData(data, naturalPersonData.Result);
             BasePersonMapper.MapAddress(data, naturalPersonData.Result);
@@ -96,6 +94,7 @@ namespace GusHelper.Services
         {
             var naturalPersonData = await DeserializeResult<NaturalPersonDeletedBusinessTo20141108Root>(regon, "BIR11OsFizycznaDzialalnoscSkreslonaDo20141108");
             if (naturalPersonData.Result == null) return;
+            data.BusinessTerminationDate = naturalPersonData.Result.BusinessTerminationDate.DateTime;
             BasePersonMapper.MapBaseData(data, naturalPersonData.Result);
             BasePersonMapper.MapAddress(data, naturalPersonData.Result);
         }
@@ -123,6 +122,7 @@ namespace GusHelper.Services
             if (legalPersonData.Result == null) return;
             data.DateOfEntryToRegisterOfRecords = legalPersonData.Result.DateOfEntryToRegisterOfRecords.DateTime;
             data.NumberInRegisterOfRecords = legalPersonData.Result.NumberInRegisterOfRecords;
+            data.BusinessTerminationDate = legalPersonData.Result.BusinessTerminationDate.DateTime;
             LegalPersonMapper.MapOrganizationData(data, legalPersonData.Result);
             BasePersonMapper.MapBaseData(data, legalPersonData.Result);
             BasePersonMapper.MapAddress(data, legalPersonData.Result);

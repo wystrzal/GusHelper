@@ -16,7 +16,8 @@ namespace GusHelper.ViewModels
         public DateTime DateOfEntryToRegon { get; set; }
         public DateTime DateOfEntryToRegisterOfRecords { get; set; }
         public DateTime DateOfChangeOccurrence { get; set; }
-        public string PhoneNumber { get; set; }
+        public DateTime BusinessTerminationDate { get; set; }
+		public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public OrganizationData OrganizationData { get; set; }
         public Address Address { get; set; }
